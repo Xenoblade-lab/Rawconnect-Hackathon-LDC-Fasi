@@ -7,11 +7,13 @@ Set-Location $projectPath
 
 Write-Host "Correction de l'etat Git..." -ForegroundColor Cyan
 
-# 0. Supprimer index.lock (bloque git add, checkout, commit)
-if (Test-Path ".git\index.lock") {
-    Write-Host "Suppression de .git\index.lock..." -ForegroundColor Yellow
-    Remove-Item ".git\index.lock" -Force -ErrorAction SilentlyContinue
-    Write-Host "  OK" -ForegroundColor Green
+# 0. Supprimer les fichiers lock (bloquent git)
+@(".git\index.lock", ".git\packed-refs.lock") | ForEach-Object {
+    if (Test-Path $_) {
+        Write-Host "Suppression de $_..." -ForegroundColor Yellow
+        Remove-Item $_ -Force -ErrorAction SilentlyContinue
+        Write-Host "  OK" -ForegroundColor Green
+    }
 }
 
 $fixed = $false
