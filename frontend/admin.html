@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAWCONNECT — Dashboard Administrateur</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <img src="../logo_rawbank_noir.jpeg" alt="Rawbank" class="sidebar-logo" onerror="this.style.display='none'">
+                <span class="sidebar-title">RAWCONNECT</span>
+                <span class="sidebar-subtitle">Administration</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#users" class="nav-item active" data-section="users">
+                    <span class="nav-icon">👥</span>
+                    <span>Utilisateurs & rôles</span>
+                </a>
+                <a href="#ussd" class="nav-item" data-section="ussd">
+                    <span class="nav-icon">📱</span>
+                    <span>Menus USSD</span>
+                </a>
+                <a href="#services" class="nav-item" data-section="services">
+                    <span class="nav-icon">⚙️</span>
+                    <span>Services métiers</span>
+                </a>
+                <a href="#stats" class="nav-item" data-section="stats">
+                    <span class="nav-icon">📊</span>
+                    <span>Statistiques & supervision</span>
+                </a>
+                <a href="#logs" class="nav-item" data-section="logs">
+                    <span class="nav-icon">📋</span>
+                    <span>Logs & audit</span>
+                </a>
+                <a href="#security" class="nav-item" data-section="security">
+                    <span class="nav-icon">🔒</span>
+                    <span>Sécurité & conformité</span>
+                </a>
+                <a href="#integrations" class="nav-item" data-section="integrations">
+                    <span class="nav-icon">🔌</span>
+                    <span>Intégrations externes</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="index.html" class="back-link">← Retour au site</a>
+            </div>
+        </aside>
+
+        <!-- Main content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1 class="admin-page-title">Dashboard Administrateur</h1>
+                <p class="admin-page-desc">Gestion de la plateforme RAWCONNECT</p>
+            </header>
+
+            <div class="admin-content">
+                <!-- Section: Utilisateurs & rôles -->
+                <section id="section-users" class="admin-section active">
+                    <h2>Utilisateurs & rôles</h2>
+                    <p class="section-desc">Gestion des agents, permissions et accès.</p>
+                    <div class="cards-grid">
+                        <div class="card">
+                            <h3>Utilisateurs</h3>
+                            <p>Créer, modifier et gérer les comptes clients et agents.</p>
+                            <button class="btn btn-primary" disabled>À venir</button>
+                        </div>
+                        <div class="card">
+                            <h3>Rôles & permissions</h3>
+                            <p>Définir les rôles (client, agent, admin) et leurs droits.</p>
+                            <button class="btn btn-outline" disabled>À venir</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: Menus USSD -->
+                <section id="section-ussd" class="admin-section">
+                    <h2>Menus USSD</h2>
+                    <p class="section-desc">Codes, options et activation des flux *444#.</p>
+                    <div class="cards-grid">
+                        <div class="card">
+                            <h3>Codes USSD</h3>
+                            <p>Configurer les codes courts et les menus associés.</p>
+                            <button class="btn btn-outline" disabled>À venir</button>
+                        </div>
+                        <div class="card">
+                            <h3>Options & activation</h3>
+                            <p>Activer ou désactiver des options par zone ou période.</p>
+                            <button class="btn btn-outline" disabled>À venir</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: Services métiers -->
+                <section id="section-services" class="admin-section">
+                    <h2>Services métiers</h2>
+                    <p class="section-desc">KYC, paiements et autres services.</p>
+                    <div class="cards-grid">
+                        <div class="card">
+                            <h3>KYC</h3>
+                            <p>Vérification d'identité et conformité.</p>
+                            <button class="btn btn-outline" disabled>À venir</button>
+                        </div>
+                        <div class="card">
+                            <h3>Paiements</h3>
+                            <p>Gestion des transactions et commissions.</p>
+                            <button class="btn btn-outline" disabled>À venir</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: Statistiques & supervision -->
+                <section id="section-stats" class="admin-section">
+                    <h2>Statistiques & supervision</h2>
+                    <p class="section-desc">Sessions, échecs et usage de la plateforme.</p>
+                    <div class="cards-grid">
+                        <div class="card">
+                            <h3>Sessions actives</h3>
+                            <p>Nombre de sessions USSD en cours.</p>
+                            <div class="stat-value">—</div>
+                        </div>
+                        <div class="card">
+                            <h3>Taux d'échec</h3>
+                            <p>Transactions échouées / total.</p>
+                            <div class="stat-value">—</div>
+                        </div>
+                        <div class="card">
+                            <h3>Usage global</h3>
+                            <p>Volume de transactions par jour.</p>
+                            <div class="stat-value">—</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: Logs & audit -->
+                <section id="section-logs" class="admin-section">
+                    <h2>Logs & audit</h2>
+                    <p class="section-desc">Traçabilité et sécurité des opérations.</p>
+                    <div class="card full-width">
+                        <h3>Journal des événements</h3>
+                        <p>Historique des actions sensibles pour audit.</p>
+                        <div class="log-placeholder">
+                            <p>Aucun log chargé. Connexion API à prévoir.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: Sécurité & conformité -->
+                <section id="section-security" class="admin-section">
+                    <h2>Sécurité & conformité</h2>
+                    <p class="section-desc">OTP, blocages et règles de sécurité.</p>
+                    <div class="cards-grid">
+                        <div class="card">
+                            <h3>OTP</h3>
+                            <p>Configuration des codes à usage unique.</p>
+                            <button class="btn btn-outline" disabled>À venir</button>
+                        </div>
+                        <div class="card">
+                            <h3>Blocages</h3>
+                            <p>Gestion des comptes bloqués.</p>
+                            <button class="btn btn-outline" disabled>À venir</button>
+                        </div>
+                        <div class="card">
+                            <h3>Règles</h3>
+                            <p>Politiques de sécurité et seuils.</p>
+                            <button class="btn btn-outline" disabled>À venir</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: Intégrations externes -->
+                <section id="section-integrations" class="admin-section">
+                    <h2>Intégrations externes</h2>
+                    <p class="section-desc">APIs et opérateurs télécom.</p>
+                    <div class="cards-grid">
+                        <div class="card">
+                            <h3>APIs</h3>
+                            <p>Configuration des endpoints et clés.</p>
+                            <button class="btn btn-outline" disabled>À venir</button>
+                        </div>
+                        <div class="card">
+                            <h3>Opérateurs</h3>
+                            <p>Connexion aux opérateurs USSD (Airtel, Vodacom…).</p>
+                            <button class="btn btn-outline" disabled>À venir</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>
