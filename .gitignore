@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Environnement
 .env
 .venv/
@@ -22,3 +23,29 @@ Thumbs.db
 # Base (optionnel : ne pas versionner la DB)
 # *.db
 # *.sqlite3
+=======
+# Environnement
+.env
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+
+# IDE / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Logs / cache
+*.log
+.cache/
+
+# Base (optionnel : ne pas versionner la DB)
+# *.db
+# *.sqlite3
+>>>>>>> 463e3abd36884f251c14dea4f64c592739b8804e

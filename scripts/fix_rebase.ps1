@@ -8,7 +8,7 @@ Set-Location $projectPath
 Write-Host "Correction de l'etat Git..." -ForegroundColor Cyan
 
 # 0. Supprimer les fichiers lock (bloquent git)
-@(".git\index.lock", ".git\packed-refs.lock") | ForEach-Object {
+@(".git\index.lock", ".git\packed-refs.lock", ".git\refs\remotes\origin\main.lock") | ForEach-Object {
     if (Test-Path $_) {
         Write-Host "Suppression de $_..." -ForegroundColor Yellow
         Remove-Item $_ -Force -ErrorAction SilentlyContinue
