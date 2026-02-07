@@ -33,9 +33,11 @@ Le projet contient déjà :
 
 ```bash
 cd ~
-git clone https://github.com/VOTRE_USERNAME/VOTRE_REPO.git rawconnect
+git clone https://github.com/Xenoblade-lab/Rawconnect-Hackathon-LDC-Fasi.git rawconnect
 cd rawconnect
 ```
+
+https://github.com/Xenoblade-lab/Rawconnect-Hackathon-LDC-Fasi.git
 
 > Si le projet n'est pas sur GitHub, utilisez l'onglet **"Files"** pour uploader les fichiers (zip puis extraction).
 

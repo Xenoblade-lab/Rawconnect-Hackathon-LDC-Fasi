@@ -22,10 +22,12 @@ class Config:
     DB_NAME = os.getenv("DB_NAME", "rawconnect")
     DB_USER = os.getenv("DB_USER", "root")
     DB_PASSWORD = os.getenv("DB_PASSWORD", "")
+    # DB_SSL=1 pour MySQL cloud (Aiven, PlanetScale, etc.)
+    DB_SSL = os.getenv("DB_SSL", "").lower() in ("1", "true", "yes")
 
     @classmethod
     def db_kwargs(cls) -> dict:
-        return {
+        kw = {
             "host": cls.DB_HOST,
             "port": cls.DB_PORT,
             "user": cls.DB_USER,
@@ -33,3 +35,6 @@ class Config:
             "database": cls.DB_NAME,
             "charset": "utf8mb4",
         }
+        if cls.DB_SSL:
+            kw["ssl"] = True  # Connexion SSL pour MySQL cloud (Aiven, etc.)
+        return kw

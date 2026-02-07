@@ -23,7 +23,11 @@ from backend.db import seed
 
 
 def create_database_if_not_exists() -> None:
-    """Crée la base rawconnect si elle n'existe pas."""
+    """Crée la base rawconnect si elle n'existe pas (MySQL local uniquement)."""
+    host = Config.DB_HOST
+    if host not in ("localhost", "127.0.0.1"):
+        print("⏭️ Base managée détectée (host != localhost), skip CREATE DATABASE.")
+        return
     kw = Config.db_kwargs().copy()
     db_name = kw.pop("database", "rawconnect")
     conn = pymysql.connect(**kw)

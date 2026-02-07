@@ -1,0 +1,32 @@
+# RAWCONNECT — Config Render.com
+# Déploiement backend Flask + MySQL (Aiven)
+# Les variables DB_* doivent être définies dans le dashboard Render
+
+services:
+  - type: web
+    name: rawconnect-api
+    runtime: python
+    plan: free
+
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn backend.app:app --bind 0.0.0.0:$PORT
+
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.13.0"
+      - key: DB_PORT
+        value: "3306"
+      - key: DB_SSL
+        value: "1"
+      - key: FLASK_ENV
+        value: "production"
+      - key: DB_HOST
+        sync: false
+      - key: DB_NAME
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
