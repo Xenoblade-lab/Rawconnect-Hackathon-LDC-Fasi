@@ -7,6 +7,8 @@ def create(
     phone: str,
     name: str,
     activity_type: str | None = None,
+    date_of_birth: str | None = None,
+    kyc_level: str = "LIGHT",
     pin: str = "0000",
     role: str = "client",
     agent_zone: str | None = None,
@@ -15,14 +17,15 @@ def create(
     Crée un utilisateur.
     Retourne le user créé ou None si le téléphone existe déjà.
     role: 'client' ou 'agent'
+    kyc_level: 'LIGHT' (KYC1 USSD) ou 'EXTENDED'
     """
     try:
         execute(
             """
-            INSERT INTO users (phone, name, activity_type, pin, role, agent_zone)
-            VALUES (%s, %s, %s, %s, %s, %s)
+            INSERT INTO users (phone, name, date_of_birth, activity_type, kyc_level, pin, role, agent_zone)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
             """,
-            (phone, name, activity_type, pin, role, agent_zone),
+            (phone, name, date_of_birth, activity_type, kyc_level, pin, role, agent_zone),
             fetch="none"
         )
         return get_by_phone(phone)
@@ -33,7 +36,7 @@ def create(
 def get_by_id(user_id: int) -> dict | None:
     """Retourne un user par ID."""
     return execute(
-        "SELECT id, phone, name, activity_type, pin, role, agent_zone, created_at FROM users WHERE id = %s",
+        "SELECT id, phone, name, date_of_birth, activity_type, kyc_level, pin, role, agent_zone, created_at FROM users WHERE id = %s",
         (user_id,),
         fetch="one"
     )
@@ -42,7 +45,7 @@ def get_by_id(user_id: int) -> dict | None:
 def get_by_phone(phone: str) -> dict | None:
     """Retourne un user par numéro de téléphone."""
     return execute(
-        "SELECT id, phone, name, activity_type, pin, role, agent_zone, created_at FROM users WHERE phone = %s",
+        "SELECT id, phone, name, date_of_birth, activity_type, kyc_level, pin, role, agent_zone, created_at FROM users WHERE phone = %s",
         (phone,),
         fetch="one"
     )
@@ -52,7 +55,7 @@ def list_agents(limit: int = 50) -> list[dict]:
     """Retourne la liste des agents actifs."""
     rows = execute(
         """
-        SELECT id, phone, name, activity_type, role, agent_zone, created_at
+        SELECT id, phone, name, date_of_birth, activity_type, kyc_level, role, agent_zone, created_at
         FROM users
         WHERE role = 'agent'
         ORDER BY name

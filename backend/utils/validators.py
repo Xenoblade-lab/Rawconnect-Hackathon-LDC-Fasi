@@ -102,3 +102,69 @@ def validate_activity_type(activity: str) -> tuple[bool, str]:
     if activity.lower() not in [a.lower() for a in allowed]:
         return False, f"Type d'activité invalide. Valeurs autorisées: {', '.join(allowed)}"
     return True, ""
+
+
+def validate_date_of_birth(dob: str) -> tuple[bool, str]:
+    """
+    Valide une date de naissance (format JJ/MM/AAAA ou AAAA-MM-JJ).
+    L'utilisateur doit avoir au moins 16 ans.
+    Retourne (is_valid, error_message).
+    """
+    import re
+    from datetime import datetime, date
+
+    if not dob or not dob.strip():
+        return False, "La date de naissance est requise"
+
+    s = dob.strip()
+    # Format JJ/MM/AAAA ou JJ-MM-AAAA
+    m1 = re.match(r"^(\d{1,2})[/\-](\d{1,2})[/\-](\d{4})$", s)
+    # Format AAAA-MM-JJ
+    m2 = re.match(r"^(\d{4})[/\-](\d{1,2})[/\-](\d{1,2})$", s)
+
+    try:
+        if m1:
+            day, month, year = int(m1.group(1)), int(m1.group(2)), int(m1.group(3))
+        elif m2:
+            year, month, day = int(m2.group(1)), int(m2.group(2)), int(m2.group(3))
+        else:
+            return False, "Format attendu: JJ/MM/AAAA (ex: 15/03/1990)"
+
+        birth = date(year, month, day)
+        today = date.today()
+        age = today.year - birth.year - ((today.month, today.day) < (birth.month, birth.day))
+        if age < 16:
+            return False, "Vous devez avoir au moins 16 ans"
+        if age > 120:
+            return False, "Date de naissance invalide"
+        return True, ""
+    except (ValueError, TypeError):
+        return False, "Date de naissance invalide"
+
+
+def parse_date_of_birth(dob: str) -> str | None:
+    """
+    Parse une date de naissance et retourne au format AAAA-MM-JJ pour la DB.
+    Retourne None si invalide.
+    """
+    import re
+    from datetime import date
+
+    if not dob or not dob.strip():
+        return None
+
+    s = dob.strip()
+    m1 = re.match(r"^(\d{1,2})[/\-](\d{1,2})[/\-](\d{4})$", s)
+    m2 = re.match(r"^(\d{4})[/\-](\d{1,2})[/\-](\d{1,2})$", s)
+
+    try:
+        if m1:
+            day, month, year = int(m1.group(1)), int(m1.group(2)), int(m1.group(3))
+        elif m2:
+            year, month, day = int(m2.group(1)), int(m2.group(2)), int(m2.group(3))
+        else:
+            return None
+        d = date(year, month, day)
+        return d.strftime("%Y-%m-%d")
+    except (ValueError, TypeError):
+        return None

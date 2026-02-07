@@ -30,12 +30,35 @@ async function request(method, path, body) {
 }
 
 const ApiClient = {
-    async register(phone, name, activityType, pin) {
+    async sendOtp(phone) {
+        try {
+            const data = await request('POST', '/otp/send', { phone });
+            if (data.success) return { success: true, code: data.data && data.data.code };
+            return { success: false, error: (data.error && data.error.message) || data.error || 'Erreur' };
+        } catch (e) {
+            console.error('Send OTP error:', e);
+            return { success: false, error: 'Erreur de connexion au serveur' };
+        }
+    },
+
+    async verifyOtp(phone, code) {
+        try {
+            const data = await request('POST', '/otp/verify', { phone, code });
+            if (data.success) return { success: true };
+            return { success: false, error: (data.error && data.error.message) || data.error || 'Erreur' };
+        } catch (e) {
+            console.error('Verify OTP error:', e);
+            return { success: false, error: 'Erreur de connexion au serveur' };
+        }
+    },
+
+    async register(phone, name, activityType, pin, dateOfBirth) {
         try {
             const data = await request('POST', '/register', {
                 phone,
                 name,
                 activity_type: activityType || 'autre',
+                date_of_birth: dateOfBirth || null,
                 pin: pin || '0000'
             });
             if (data.success && data.data) {

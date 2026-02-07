@@ -66,7 +66,8 @@ def deposit(phone: str, amount: float) -> tuple[bool, dict | str, str | None]:
     if not ok:
         return False, "validation_error", err
 
-    user = user_model.get_by_phone(phone)
+    normalized = normalize_phone(phone)
+    user = user_model.get_by_phone(normalized) or user_model.get_by_phone(phone)
     if not user:
         return False, "not_found", "Utilisateur introuvable"
 

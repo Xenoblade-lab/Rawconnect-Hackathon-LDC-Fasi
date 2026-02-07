@@ -154,7 +154,19 @@ const USSDState = {
         return !!(r && r.success);
     },
 
-    async createAccount(phone, name, pin) {
+    async sendOtp(phone) {
+        if (!this.useApi) return { success: true, code: '123456' };
+        const r = await (window.ApiClient || {}).sendOtp(phone);
+        return (r && r.success) ? { success: true, code: r.code } : { success: false };
+    },
+
+    async verifyOtp(phone, code) {
+        if (!this.useApi) return true;
+        const r = await (window.ApiClient || {}).verifyOtp(phone, code);
+        return !!(r && r.success);
+    },
+
+    async createAccount(phone, name, pin, dateOfBirth, activityType) {
         if (!this.useApi) {
             this.demoAccounts[phone] = {
                 name, pin, balance: 0, score: 10, savings: 0,
@@ -162,7 +174,7 @@ const USSDState = {
             };
             return { success: true };
         }
-        const r = await (window.ApiClient || {}).register(phone, name, 'autre', pin);
+        const r = await (window.ApiClient || {}).register(phone, name, activityType || 'autre', pin, dateOfBirth);
         if (r && r.success) return { success: true };
         return { success: false, error: (r && r.error) || 'Erreur' };
     },

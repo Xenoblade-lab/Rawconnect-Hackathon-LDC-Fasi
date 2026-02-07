@@ -166,6 +166,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let notificationPollTimer = null;
     let lastSeenNotificationId = 0;
     let lastPolledPhone = null;
+    const displayedNotificationIds = new Set();
 
     function getPollingPhone() {
         const s = USSDState && USSDState.session ? USSDState.session : {};
@@ -188,6 +189,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!r || !r.success || !Array.isArray(r.notifications)) return;
         for (const n of r.notifications) {
             if (n.id > lastSeenNotificationId) lastSeenNotificationId = n.id;
+            if (displayedNotificationIds.has(n.id)) continue;
+            displayedNotificationIds.add(n.id);
             if (typeof window.pushSMSFeedback === 'function' && n.message) {
                 window.pushSMSFeedback(n.message, { recipient: n.recipient || info.recipient, phone: info.phone });
             }
@@ -208,6 +211,10 @@ document.addEventListener('DOMContentLoaded', function() {
         lastPolledPhone = null;
     }
 
+    function clearDisplayedNotificationIds() {
+        displayedNotificationIds.clear();
+    }
+
     // Bouton effacer l'historique SMS
     const smsClearBtn = document.getElementById('sms-inbox-clear');
     if (smsClearBtn) {
@@ -217,6 +224,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!list) return;
             list.querySelectorAll('.sms-message').forEach(function(el) { el.remove(); });
             if (emptyEl) emptyEl.classList.remove('hidden');
+            clearDisplayedNotificationIds();
         });
     }
 
@@ -280,6 +288,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         renderUSSD(typeof result === 'string' ? result : String(result));
     }
+
+    // Simulation 24h : après confirmation PIN, déclenche la création du compte automatiquement
+    window.scheduleRegisterComplete = function(delayMs) {
+        const delay = delayMs || 3000;
+        setTimeout(function() {
+            if (ussdInput && USSDState && USSDState.currentMenu === 'register_processing') {
+                ussdInput.value = '1';
+                handleUSSDInput();
+            }
+        }, delay);
+    };
 
     // Event Listeners
     sendBtn.addEventListener('click', handleUSSDInput);

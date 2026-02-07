@@ -8,14 +8,14 @@ def seed_demo_data():
     """Insère les données de démo pour tester."""
     print("🌱 Insertion des données de démo...")
 
-    # 1. User: Maman Marie (client)
+    # 1. User: Maman Marie (client) — KYC L1
     user_sql = """
-        INSERT INTO users (phone, name, activity_type, pin, role, created_at)
-        VALUES (%s, %s, %s, %s, 'client', %s)
+        INSERT INTO users (phone, name, date_of_birth, activity_type, kyc_level, pin, role, created_at)
+        VALUES (%s, %s, %s, %s, 'LIGHT', %s, 'client', %s)
     """
     execute(
         user_sql,
-        ("0812345678", "Maman Marie", "marché", "1234", "2025-01-10 08:00:00"),
+        ("0812345678", "Maman Marie", "1985-03-15", "marché", "1234", "2025-01-10 08:00:00"),
         fetch="none"
     )
     print("  ✓ User créé: Maman Marie (0812345678)")
@@ -120,7 +120,7 @@ def seed_demo_data():
     """
     execute(
         agent_sql,
-        ("0899999999", "Agent Victoire", "boutique", "5678", "Kinshasa - Lingwala", "2025-01-05 09:00:00"),
+        ("0899999999", "Agent Victoire", "commerce", "5678", "Kinshasa - Lingwala", "2025-01-05 09:00:00"),
         fetch="none"
     )
     print("  ✓ Agent créé: Agent Victoire (0899999999, PIN 5678)")

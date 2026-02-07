@@ -7,6 +7,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- --------------------------------------
 -- users
 -- --------------------------------------
+DROP TABLE IF EXISTS `otp_verifications`;
 DROP TABLE IF EXISTS `loan_repayments`;
 DROP TABLE IF EXISTS `loans`;
 DROP TABLE IF EXISTS `scores`;
@@ -18,13 +19,30 @@ CREATE TABLE `users` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `phone` VARCHAR(20) NOT NULL,
     `name` VARCHAR(120) NOT NULL,
+    `date_of_birth` DATE DEFAULT NULL COMMENT 'KYC L1: date de naissance',
     `activity_type` VARCHAR(60) DEFAULT NULL COMMENT 'marché, étudiant, agriculture, etc.',
+    `kyc_level` VARCHAR(20) NOT NULL DEFAULT 'LIGHT' COMMENT 'LIGHT=KYC1 USSD, EXTENDED=KYC2',
     `pin` VARCHAR(20) NOT NULL DEFAULT '0000' COMMENT 'PIN 4 chiffres (démo)',
     `role` VARCHAR(20) NOT NULL DEFAULT 'client' COMMENT 'client, agent',
     `agent_zone` VARCHAR(100) DEFAULT NULL COMMENT 'zone géographique agent',
     `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     UNIQUE KEY `uq_users_phone` (`phone`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------
+-- otp_verifications (KYC L1: vérification OTP)
+-- --------------------------------------
+CREATE TABLE `otp_verifications` (
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `phone` VARCHAR(20) NOT NULL,
+    `code` VARCHAR(8) NOT NULL,
+    `expires_at` DATETIME NOT NULL,
+    `used_at` DATETIME DEFAULT NULL COMMENT 'NULL = non utilisé',
+    `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    KEY `ix_otp_phone` (`phone`),
+    KEY `ix_otp_expires` (`expires_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------

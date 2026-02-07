@@ -1034,6 +1034,10 @@ body[data-theme="dark"] .sms-message {
     color: #ef4444;
 }
 
+.message-info {
+    color: #3b82f6;
+}
+
 .input-hint {
     font-size: 0.9em;
     color: var(--primary);
